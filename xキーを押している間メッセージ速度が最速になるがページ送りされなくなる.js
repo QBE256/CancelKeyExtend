@@ -1,5 +1,5 @@
 /*--------------------------------------------------------------------------
-　xキーを押している間メッセージ速度が最速になるがページ送りされなくなる ver 1.0
+　xキーを押している間メッセージ速度が最速になるがページ送りされなくなる ver 1.1
 
 ■作成者
 キュウブ
@@ -12,6 +12,9 @@
 導入するだけ
 
 ■更新履歴
+ver 1.1 (2019/10/1)
+速度最速時に無駄な処理があったので修正
+
 ver 1.0 (2019/10/1)
 初版作成
 
@@ -67,13 +70,16 @@ SRPG Studio Version:1.161
 		if (this.isMessageDirect()) {
 			this.cutPage();
 		}
-		else if (!DataConfig.isHighPerformance()) {
-			// 30FPSの場合は、2文字ずつ処理されることになる
-			this._checkCurrentPage(false);
-		}
+		else {
 
-		// 現在のページを処理する
-		this._checkCurrentPage(false);
+			// 現在のページを処理する
+			this._checkCurrentPage(false);
+
+			if (!DataConfig.isHighPerformance()) {
+				// 30FPSの場合は、2文字ずつ処理されることになる
+				this._checkCurrentPage(false);
+			}
+		}
 		
 		return MoveResult.CONTINUE;
 	};
